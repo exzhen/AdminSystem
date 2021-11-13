@@ -22,6 +22,7 @@ namespace AdminSystem.Controllers
         {
             try
             {
+                // Check input
                 if (regStudent == null || regStudent.students == null || regStudent.teacher == null)
                 {
                     var errorMessage = new
@@ -36,11 +37,13 @@ namespace AdminSystem.Controllers
                 using (var db = new AdminSystemEntities())
                 {
                     int teacherID, studentID;
+                    // Check if the teacher exists in database
                     var existTeacher = (from t in db.Teachers
                                          where t.EmailAddress == regStudent.teacher
                                          select t).FirstOrDefault();
                     if (existTeacher == null)
                     {
+                        // Insert new teacher into database
                         Teacher newTeacher = new Teacher();
                         newTeacher.EmailAddress = regStudent.teacher;
                         db.Teachers.Add(newTeacher);
@@ -54,11 +57,13 @@ namespace AdminSystem.Controllers
 
                     foreach (var student in regStudent.students)
                     {
+                        // Check if the student exists in database
                         var existStudent = (from s in db.Students
                                             where s.EmailAddress == student
                                             select s).FirstOrDefault();
                         if (existStudent == null)
                         {
+                            // Insert new student into database
                             Student newStudent = new Student();
                             newStudent.EmailAddress = student;
                             db.Students.Add(newStudent);
@@ -70,6 +75,7 @@ namespace AdminSystem.Controllers
                             studentID = existStudent.StudentID;
                         }
 
+                        // Add the relationship into database
                         db.TeacherStudents.Add(new TeacherStudent { TeacherID = teacherID, StudentID = studentID });
                         db.SaveChanges();
                     }
@@ -107,6 +113,7 @@ namespace AdminSystem.Controllers
         {
             try
             {
+                // Check input
                 if (teacher == null)
                 {
                     var errorMessage = new
@@ -123,8 +130,9 @@ namespace AdminSystem.Controllers
                 {
                     for (int i = 0; i < teacher.Length; i++) 
                     {
-
+                        // Get the email address
                         string emailAddress = teacher[i];
+                        // Get the list of students that are registered to the teacher
                         var students = (from ts in db.TeacherStudents
                                         join t in db.Teachers on ts.TeacherID equals t.TeacherID
                                         join s in db.Students on ts.StudentID equals s.StudentID
@@ -132,10 +140,12 @@ namespace AdminSystem.Controllers
                                         select s.EmailAddress).ToList();
                         if (i == 0)
                         {
+                            // Initialize the result to be same as the first list
                             result = students;
                         }
                         else
                         {
+                            // Find common students
                             result = result.Intersect(students).ToList();
                         }
                     }
@@ -177,6 +187,7 @@ namespace AdminSystem.Controllers
         {
             try
             {
+                // Check input
                 if (suspendStudent == null)
                 {
                     var errorMessage = new
@@ -190,12 +201,14 @@ namespace AdminSystem.Controllers
 
                 using (var db = new AdminSystemEntities())
                 {
+                    // Get the student from database
                     var existStudent = (from s in db.Students
                                         where s.EmailAddress == suspendStudent.student
                                         && s.IsSuspended == false
                                         select s).FirstOrDefault();
                     if (existStudent != null)
                     {
+                        // Update the student status to suspended
                         existStudent.IsSuspended = true;
                         db.SaveChanges();
 
@@ -236,6 +249,7 @@ namespace AdminSystem.Controllers
         {
             try
             {
+                // Check input
                 if (retrieve == null || retrieve.teacher == null || retrieve.notification == null)
                 {
                     var errorMessage = new
@@ -249,6 +263,7 @@ namespace AdminSystem.Controllers
 
                 using (var db = new AdminSystemEntities())
                 {
+                    // Get the list of students that are registered to the teacher
                     var registeredStudents = (from ts in db.TeacherStudents
                                               join t in db.Teachers on ts.TeacherID equals t.TeacherID
                                               join s in db.Students on ts.StudentID equals s.StudentID
@@ -263,6 +278,7 @@ namespace AdminSystem.Controllers
                     MatchCollection matchCollection = rg.Matches(retrieve.notification);
                     foreach (var match in matchCollection)
                     {
+                        // Add those mentioned email address in notification
                         extractEmailAddress.Add(match.ToString().Substring(1));
                     }
 
@@ -272,6 +288,7 @@ namespace AdminSystem.Controllers
                                              select s.EmailAddress).ToList();
                     ReceiveNotifications result = new ReceiveNotifications
                     {
+                        // Remove duplicate students from the list
                         recipients = mentionedStudents.Union(registeredStudents).ToArray()
                     };
                     var response = Request.CreateResponse(HttpStatusCode.OK);

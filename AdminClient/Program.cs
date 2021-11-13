@@ -16,18 +16,20 @@ namespace AdminClient
         {
             Console.ReadLine();
             client.BaseAddress = new Uri("https://localhost:44304/api/");
-            //await TestRegisterStudents();
+            // Uncomment the function to test the specific endpoints
+
+            await TestRegisterStudents();
             //await TestCommonStudents();
             //await TestSuspendStudent();
-            await TestRetrieveNotification();
+            //await TestRetrieveNotification();
             Console.ReadLine();
         }
 
         public static async Task TestRegisterStudents()
         {
             RegisterStudents register = new RegisterStudents();
-            //register.teacher = "teacherjoe@gmail.com";
-            //register.students = new string[]{ "commonstudent1@gmail.com", "commonstudent2@gmail.com" };
+            register.teacher = "teacherjoe@gmail.com";
+            register.students = new string[] { "commonstudent1@gmail.com", "commonstudent2@gmail.com" };
             var response = await client.PostAsync("register", new StringContent(JsonConvert.SerializeObject(register), Encoding.UTF8, "application/json"));
             var result = await response.Content.ReadAsStringAsync();
             Console.WriteLine(response.IsSuccessStatusCode);

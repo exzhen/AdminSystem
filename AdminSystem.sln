@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminAPI", "AdminSystem\AdminAPI.csproj", "{63DBA302-4C8A-4854-A761-BF3DC7A3488D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminClient", "AdminClient\AdminClient.csproj", "{656CEB34-3F13-4C48-B647-FE9A66DD5D50}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{63DBA302-4C8A-4854-A761-BF3DC7A3488D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63DBA302-4C8A-4854-A761-BF3DC7A3488D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63DBA302-4C8A-4854-A761-BF3DC7A3488D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63DBA302-4C8A-4854-A761-BF3DC7A3488D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{656CEB34-3F13-4C48-B647-FE9A66DD5D50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{656CEB34-3F13-4C48-B647-FE9A66DD5D50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{656CEB34-3F13-4C48-B647-FE9A66DD5D50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{656CEB34-3F13-4C48-B647-FE9A66DD5D50}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F153148F-1445-4C8F-AE49-D50900450B52}
+	EndGlobalSection
+EndGlobal

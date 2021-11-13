@@ -1,4 +1,4 @@
-# AdminSystem
+# Admin System
 System for user to perform administrative functions
 
 ## Background

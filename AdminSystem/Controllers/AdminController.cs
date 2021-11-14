@@ -75,9 +75,27 @@ namespace AdminSystem.Controllers
                             studentID = existStudent.StudentID;
                         }
 
-                        // Add the relationship into database
-                        db.TeacherStudents.Add(new TeacherStudent { TeacherID = teacherID, StudentID = studentID });
-                        db.SaveChanges();
+
+                        // Check if the relationship exists in database
+                        var existRelationship = (from ts in db.TeacherStudents
+                                                 where ts.TeacherID == teacherID && ts.StudentID == studentID
+                                                 select ts).FirstOrDefault();
+                        if (existRelationship == null)
+                        {
+                            // Add the relationship into database
+                            db.TeacherStudents.Add(new TeacherStudent { TeacherID = teacherID, StudentID = studentID });
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            var errorMessage = new
+                            {
+                                message = "The students have already been registered to the teacher.",
+                            };
+                            var errorResponse = Request.CreateResponse(HttpStatusCode.BadRequest);
+                            errorResponse.Content = new StringContent(JsonConvert.SerializeObject(errorMessage), Encoding.UTF8, "application/json");
+                            return errorResponse;
+                        }
                     }
                 }
 
